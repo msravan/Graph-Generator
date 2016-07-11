@@ -1,0 +1,127 @@
+<!DOCTYPE html>  <!-- HTML5 document type -->
+<html>
+<head>
+  <script src="go.js"></script>
+  <script src="goSamples.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script>
+   function gointro(){
+    var arena = document.getElementById("arena").value;
+	var a1 =  arena.split(/[\s,]+/);
+	 a1.splice(-1,1);
+	var a2 = arena.split("\n");
+	//document.getElementById("demo").innerHTML = a1;
+	//document.getElementById("demo1").innerHTML = a2;
+	var n =0 ;
+	var dict = []; 
+	
+	var a = [], // uniques get placed into here
+       b = 0; // counter to test if value is already in array 'a'
+
+    for (var p = 0; p < a1.length; p++ ) {
+        var current = a1[p]; // get a value from the original array
+		//alert(current);
+        for (var q= 0; q< a.length; q++ )
+		{ // loop and check if value is in new array 
+		 // alert(a[q]);
+            if ( current != a[q] ) {
+                b++; // if its not in the new array increase counter
+					//alert(b);
+            }
+        }
+
+        if ( b == a.length ) { // if the counter increased on all values 
+                               // then its not in the new array yet
+            a.push( current ); // put it in
+        }
+
+        b = 0; // reset counter
+    }
+
+
+
+	
+	
+	
+  for (var j=0;j<a.length;j++){
+   var e = Number(a[j]);
+    //if(!(e in dict)){
+	//alert(e);
+	//dict.push({
+    //key:   e,
+	//color : "LightBlue"
+	//});
+	//var f =  Number(a[j]);
+	//var g =  Number(a1[j-1]);
+
+	
+	var g = "LightBlue";
+	var item = {
+      "key": e,	
+	  "color":g 
+    };
+	dict.push(item);
+ }
+  
+	
+	
+  // document.getElementById("demo2").innerHTML = ;
+	var $ = go.GraphObject.make;
+    var diagram = new go.Diagram("myDiagramDiv");
+	diagram.initialContentAlignment = go.Spot.Center;
+	diagram.nodeTemplate =
+	$(go.Node, go.Panel.Auto,
+	  $(go.Shape,
+	  {figure : "Ellipse"},
+	  new go.Binding("fill","color")),
+	  $(go.TextBlock,
+	  {margin:2},
+	  new go.Binding("text","key")));
+	
+	var lay = [];
+	for(var l =0;l<a1.length;l++){
+	var f =  Number(a1[l]);
+	var g = Number(a1[l+1]);
+	var item1 = {
+      "from": f,	
+	  "to":g 
+    };
+	lay.push(item1);
+	l++;
+	}
+	
+    diagram.model = new go.GraphLinksModel(dict,lay);
+   }
+   
+  
+  </script>
+  </head>
+<body oncontextmenu="return false">
+<p><h3>Generate graphs by entering the edges of the graph</h3></p>
+<table>
+<tr>
+<td>
+  <div id="myDiagramDiv"
+     style="width:500px; height:500px; background-color: #DAE4E4;">
+</div>
+<sub>Credits: Used GoJS</sub>	
+</td>
+<td>
+	 <p> 
+Enter each graph edges  in one line. Enter edges as pairs of nodes, separated by spaces.(e.g.: 1 2)</p>
+<p><b>After Graph is generated, you can drag the edges for better visualization</b></p>
+
+	<textarea id = "arena" rows="10" cols="10" autofocus >
+	 </textarea>
+	 <button onclick="gointro()" >Submit</button>
+	 <button onClick="window.location.reload()" >Enter Again</button>
+
+</td>
+	 
+</tr>
+</table>	 
+
+
+</body>
+</html>
